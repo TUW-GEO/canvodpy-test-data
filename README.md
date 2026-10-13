@@ -83,9 +83,9 @@ test_data/
 │   │   └── 02_canopy/
 │   │
 │   └── aux_data/                              # Precise ephemeris products + aux Zarr
-│       ├── 01_SP3/                            # COD0MGXFIN 2025-001 orbit (5 min)
-│       ├── 02_CLK/                            # COD0MGXFIN 2025-001 clock (30 s)
-│       └── aux_2025001.zarr/                  # Pre-computed SP3/CLK interpolation cache
+│       ├── 01_SP3/                            # COD0MGXFIN 2024-366..2025-002 orbits (5 min)
+│       ├── 02_CLK/                            # COD0MGXFIN 2024-366..2025-002 clocks (30 s)
+│       └── aux_2025001.zarr/                  # Orbits and clocks of 2025-001 on a 5 s grid
 │
 ├── invalid/                                   # Malformed RINEX files for parser robustness
 │   ├── binary_garbage.25o
@@ -162,12 +162,24 @@ ract001d00.25o
 
 ## Auxiliary data
 
-COD (Center for Orbit Determination in Europe) final products, 2025-001:
+COD (Center for Orbit Determination in Europe) final products, 2025-001 and
+the days before and after it (2024-366, 2025-002). canVODpy joins each day's
+orbits and clocks with those of the neighboring days, so the whole day is
+interpolated, never extrapolated.
 
 | File                                     | Product                   | Interval |
 | ---------------------------------------- | ------------------------- | -------- |
+| `COD0MGXFIN_20243660000_01D_05M_ORB.SP3` | Multi-GNSS precise orbits | 5 min    |
 | `COD0MGXFIN_20250010000_01D_05M_ORB.SP3` | Multi-GNSS precise orbits | 5 min    |
+| `COD0MGXFIN_20250020000_01D_05M_ORB.SP3` | Multi-GNSS precise orbits | 5 min    |
+| `COD0MGXFIN_20243660000_01D_30S_CLK.CLK` | Precise satellite clocks  | 30 s     |
 | `COD0MGXFIN_20250010000_01D_30S_CLK.CLK` | Precise satellite clocks  | 30 s     |
+| `COD0MGXFIN_20250020000_01D_30S_CLK.CLK` | Precise satellite clocks  | 30 s     |
+
+`aux_2025001.zarr` holds the orbits (`X`, `Y`, `Z`, `Vx`, `Vy`, `Vz`) and
+clock offsets (`clock_offset`, seconds) of 2025-001 interpolated onto the 5 s
+grid of the Rosalia observations, as `canvodpy run` computes them from the
+three days above (`canvod.auxiliary.interpolation.interpolate_aux_day`).
 
 ---
 
@@ -247,7 +259,7 @@ all archives reconstruct the same `valid/` tree and require no path changes in
 | `rinex_v3_04.tar.gz`          | RINEX v3.04 obs, Rosalia                    | ~160 MB                 |
 | `sbf.tar.gz`                  | SBF binary, Rosalia                         | ~2.2 GB                 |
 | `nmea.tar.gz`                 | NMEA, Rosalia + Hainich                     | ~35 MB                  |
-| `aux_data.tar.gz`             | SP3, CLK, `aux_2025001.zarr`                | ~290 MB                 |
+| `aux_data.tar.gz`             | SP3, CLK, `aux_2025001.zarr`                | ~160 MB                 |
 | `rinex_v2_11.tar.gz`          | RINEX v2.11, MOFLUX                         | ~9 MB                   |
 | `rinex_v3_05_stripped.tar.gz` | Stripped RINEX v3.05, ExampleSite (MPI-BGC) | < 1 MB                  |
 | `nav_data.tar.gz`             | RINEX nav data (.25p), Rosalia              | ~1.5 MB                 |

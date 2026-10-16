@@ -17,281 +17,161 @@
   </picture>
 </p>
 
-# canVODpy — Test Data
+# canVODpy Test Data
 
-Reference GNSS dataset for [canVODpy](https://github.com/nfb2021/canvodpy) pipeline validation and end-to-end testing. Contains real observations from **Rosalia, Austria** — DOY **2025-001** (2025-01-01), full 24-hour day. RINEX 2.11 data is from **MOFLUX, MO, US** on DOY **2025-001** by courtesy of Caltech via Christian Frankenberg. NMEA data is from **Hainich Nationalpark** receiver recorded with a **u-blox NEO-M9N** receiver (1 hour on DOY **2026-001**). Stripped RINEX v3.05 data (SNR-only) is from a real Max Planck Institute for Biogeochemistry (MPI-BGC) field site — station name withheld, referred to as `ExampleSite` throughout.
+Real GNSS observations for testing [canVODpy](https://github.com/nfb2021/canvodpy)
+and running its [demo notebooks](https://github.com/nfb2021/canvodpy-demo):
+pairs of receivers, one below the canopy and one with an open view of the
+sky, from four sites and in five file formats, together with the orbit and
+clock products needed to process them.
 
-## Usage
+## Sites
 
-This repository is used as the `packages/canvod-readers/tests/test_data/` submodule in canvodpy, and as the `test_data/` directory in canvodpy-demo.
+| Site | Location | Receivers (station codes) | Formats | Period |
+| ---- | -------- | ------------------------- | ------- | ------ |
+| Rosalia | Rosalia Research Forest, Austria | `ROSR01TUW` reference, `ROSA01TUW` canopy | RINEX v3.04, SBF, NMEA | 2025-01-01, 96 files of 15 min at 5 s |
+| MOFLUX | Missouri Ozark site, Missouri, US | `MOZR01CAL` reference, `MOZA01CAL` canopy | RINEX v2.11 | 2025-01-01, 24 files of 1 h at 15 s |
+| Hainich | Hainich National Park, Germany | `HAIR02MPI` reference, `HAIA02MPI` canopy | NMEA (u-blox NEO-M9N) | 2026-01-01, 1 file of 1 h at 1 s |
+| ExampleSite | an MPI-BGC field site (name withheld) | `EXPR01MPI` reference, `EXPA01MPI` canopy | stripped RINEX v3.05 | 2025-01-01, 1 file per receiver |
 
-**Clone for standalone use:**
+Rosalia also has the RINEX v3.04 navigation files of both receivers
+(2025-01-01, 96 files each).
+
+## Use
+
+canVODpy includes this repository as a git submodule at
+`packages/canvod-readers/tests/test_data/`:
 
 ```bash
-# Inside canvodpy-demo
-git clone https://github.com/nfb2021/canvodpy-test-data.git test_data
-
-# Or as part of canvodpy (included automatically via submodules)
 git clone --recurse-submodules https://github.com/nfb2021/canvodpy.git
 ```
 
----
+The demo notebooks download it from Zenodo on first use. To use a local
+copy instead, clone it into `test_data/` of the demo:
+
+```bash
+git clone https://github.com/nfb2021/canvodpy-test-data.git test_data
+```
+
+## File names
+
+The observation files follow the
+[canVOD filename convention](https://canvodpy.eu/packages/naming/overview/),
+for example:
+
+```text
+ROSA01TUW_R_20250010015_15M_05S_AA.rnx
+```
+
+| Part | Meaning |
+| ---- | ------- |
+| `ROS` | site |
+| `A` | receiver type: `A` below the canopy, `R` reference |
+| `01` | receiver number |
+| `TUW` | data provider |
+| `R` | receiver-generated data |
+| `2025001` | year and day of year |
+| `0015` | start time (GPS time) |
+| `15M` | file period |
+| `05S` | sampling interval |
+| `AA` | content code |
+| `rnx` | file type: `rnx`, `sbf` or `nmea` |
+
+The navigation files keep their RINEX short names (`rref001a00.25p`,
+`ract001a00.25p`).
 
 ## Structure
 
 ```text
-test_data/
-├── valid/
-│   ├── rinex_v3_04/                           # RINEX v3.04 observation files
-│   │   └── 01_Rosalia/
-│   │       ├── 01_reference/01_GNSS/01_raw/
-│   │       │   └── 25001/                     # 96 × 15-min files (rref001*.25o)
-│   │       └── 02_canopy/01_GNSS/01_raw/
-│   │           └── 25001/                     # 96 × 15-min files (ract001*.25o)
-│   │
-│   ├── rinex_v2_11/                           # RINEX v2.11 observation files (Missouri Ozark Site, Missouri, US)
-│   │   └── 02_Moflux/
-│   │       ├── 01_reference/
-│   │       │   └── 25001/                     # 24 × 1-hour files (MOZR01CAL_R_*.rnx)
-│   │       └── 02_canopy/
-│   │           └── 25001/                     # 24 × 1-hour files (MOZA01CAL_R_*.rnx)
-│   │
-│   ├── sbf/                                   # Septentrio Binary Format files
-│   │   └── 01_Rosalia/
-│   │       ├── 01_reference/25001/            # 96 × 15-min files (rref001*.25_)
-│   │       └── 02_canopy/25001/               # 96 × 15-min files (ract001*.25_)
-│   │
-│   ├── nmea/                                  # NMEA files
-│   │   ├── 01_Rosalia/
-│   │       ├── 01_reference/25001/            # 96 × 15-min files (rref001*.251)
-│   │       └── 02_canopy/25001/               # 96 × 15-min files (ract001*.251)
-│   │
-│   │   └── 02_Hainich/                        # u-blox NEO-M9N, 1-hour campaign (01.01.2026)
-│   │       ├── 01_reference/                  # HAIR02MPI_R_20260010000_01H_01S_AA.nmea
-│   │       └── 02_canopy/                     # HAIA02MPI_R_20260010000_01H_01S_AA.nmea
-│   │
-│   ├── rinex_v3_04_nav_data/                  # RINEX v3.04 Mixed Navigation Data
-│   │   ├── 01_reference/                      # 96 × 15-min files (rref001*.25p)
-│   │   └── 02_canopy/                         # 96 × 15-min files (ract001*.25p)
-│   │
-│   ├── rinex_v3_05_stripped/                  # Stripped RINEX v3.05 observation files (MPI-BGC)
-│   │   └── 01_ExampleSite/
-│   │       ├── 01_reference/25001/            # EXPR01MPI_R_20250010000_10S_01S_AA.rnx
-│   │       └── 01_canopy/25001/               # EXPA01MPI_R_20250010000_10S_01S_AA.rnx
-│   │
-│   ├── broadcast_ephemerides/                 # Broadcast ephemeris data (from SBF)
-│   │   └── 02_canopy/
-│   │
-│   └── aux_data/                              # Precise ephemeris products + aux Zarr
-│       ├── 01_SP3/                            # COD0MGXFIN 2024-366..2025-002 orbits (5 min)
-│       ├── 02_CLK/                            # COD0MGXFIN 2024-366..2025-002 clocks (30 s)
-│       └── aux_2025001.zarr/                  # Orbits and clocks of 2025-001 on a 5 s grid
-│
-├── invalid/                                   # Malformed RINEX files for parser robustness
-│   ├── binary_garbage.25o
-│   ├── bitflip_numeric.25o
-│   ├── blank_lines_in_data.25o
-│   ├── blank_observations.25o
-│   ├── crlf_line_endings.25o
-│   ├── duplicate_epochs.25o
-│   ├── duplicate_obs_types.25o
-│   ├── empty.25o
-│   ├── event_epoch.25o
-│   ├── extra_long_sat_line.25o
-│   ├── header_only.25o
-│   ├── huge_satellite_count.25o
-│   ├── invalid_epoch_flag.25o
-│   ├── invalid_month.25o
-│   ├── invalid_satellite_id.25o
-│   ├── leap_second.25o
-│   ├── misaligned_observations.25o
-│   ├── missing_end_of_header.25o
-│   ├── missing_obs_types.25o
-│   ├── mixed_valid_corrupt.25o
-│   ├── multiple_end_of_header.25o
-│   ├── negative_seconds.25o
-│   ├── non_ascii_header.25o
-│   ├── non_numeric_observations.25o
-│   ├── null_bytes.25o
-│   ├── obs_type_count_mismatch.25o
-│   ├── reversed_epochs.25o
-│   ├── satellite_count_mismatch.25o
-│   ├── truncated_at_epoch_boundary.25o
-│   ├── truncated_header.25o
-│   ├── truncated_mid_epoch.25o
-│   ├── truncated_sat_line.25o
-│   ├── wrong_version_v2.25o
-│   ├── wrong_version_v4.25o
-│   ├── zero_position.25o
-│   └── zero_satellites.25o
-│
-├── LICENSE
-└── README.md
+valid/
+├── rinex_v3_04/01_Rosalia/
+│   ├── 01_reference/01_GNSS/01_raw/25001/   # 96 files ROSR01TUW_*.rnx
+│   ├── 02_canopy/01_GNSS/01_raw/25001/      # 96 files ROSA01TUW_*.rnx
+│   ├── 01_SP3/                              # orbits of 2025-001
+│   └── 02_CLK/                              # clocks of 2025-001
+├── rinex_v3_04_nav_data/
+│   ├── 01_reference/                        # 96 files rref001*.25p
+│   └── 02_canopy/                           # 96 files ract001*.25p
+├── rinex_v2_11/02_Moflux/
+│   ├── 01_reference/25001/                  # 24 files MOZR01CAL_*.rnx
+│   └── 02_canopy/25001/                     # 24 files MOZA01CAL_*.rnx
+├── sbf/01_Rosalia/
+│   ├── 01_reference/25001/                  # 96 files ROSR01TUW_*.sbf
+│   └── 02_canopy/25001/                     # 96 files ROSA01TUW_*.sbf
+├── nmea/
+│   ├── 01_Rosalia/
+│   │   ├── 01_reference/                    # 96 files ROSR01TUW_*.nmea
+│   │   └── 02_canopy/                       # 96 files ROSA01TUW_*.nmea
+│   └── 02_Hainich/
+│       ├── 01_reference/                    # HAIR02MPI_*.nmea
+│       └── 02_canopy/                       # HAIA02MPI_*.nmea
+├── rinex_v3_05_stripped/01_ExampleSite/
+│   ├── 01_reference/25001/                  # EXPR01MPI_*.rnx
+│   └── 01_canopy/25001/                     # EXPA01MPI_*.rnx
+├── broadcast_ephemerides/02_canopy/         # empty
+└── aux_data/
+    ├── 01_SP3/                              # orbits, 2024-366 to 2025-002
+    ├── 02_CLK/                              # clocks, 2024-366 to 2025-002
+    └── aux_2025001.zarr/                    # orbits and clocks of 2025-001 on a 5 s grid
+invalid/                                     # 36 malformed RINEX v3 files
 ```
 
-The RINEX v2.11 data in `valid/rinex_v2_11/` are from the Missouri Ozark Site in
-Missouri, US, by courtesy of Christian Frankenberg and Vincent Humphrey.
+## Orbits and clocks
 
----
-
-## Receivers
-
-| ID             | Type               | Station code | Formats                             |
-| -------------- | ------------------ | ------------ | ----------------------------------- |
-| `reference_01` | Open-sky reference | `rref`       | RINEX v3.04, RINEX v2.11, SBF, NMEA |
-| `canopy_01`    | Below-canopy       | `ract`       | RINEX v3.04, RINEX v2.11, SBF, NMEA |
-
----
-
-## File naming
-
-RINEX short-name convention:
-
-```text
-ract001d00.25o
-└┬┘└┬┘└┬┘└┬┘└┬─┬┘
- │  │  │  │  │ └── Extension: o = observation, _ = SBF, 1 = NMEA
- │  │  │  │  └──── Year: 25 (2025)
- │  │  │  └─────── Session: 00 / 15 / 30 / 45 (minutes)
- │  │  └────────── Hour letter: a=00h … x=23h
- │  └───────────── DOY: 001
- └──────────────── Station: ract (Rosalia canopy), rref (Rosalia reference)
-```
-
----
-
-## Auxiliary data
-
-COD (Center for Orbit Determination in Europe) final products, 2025-001 and
-the days before and after it (2024-366, 2025-002). canVODpy joins each day's
+Final products of the Center for Orbit Determination in Europe (CODE) for
+2025-01-01 and the days before and after it. canVODpy joins each day's
 orbits and clocks with those of the neighboring days, so the whole day is
 interpolated, never extrapolated.
 
-| File                                     | Product                   | Interval |
-| ---------------------------------------- | ------------------------- | -------- |
-| `COD0MGXFIN_20243660000_01D_05M_ORB.SP3` | Multi-GNSS precise orbits | 5 min    |
-| `COD0MGXFIN_20250010000_01D_05M_ORB.SP3` | Multi-GNSS precise orbits | 5 min    |
-| `COD0MGXFIN_20250020000_01D_05M_ORB.SP3` | Multi-GNSS precise orbits | 5 min    |
-| `COD0MGXFIN_20243660000_01D_30S_CLK.CLK` | Precise satellite clocks  | 30 s     |
-| `COD0MGXFIN_20250010000_01D_30S_CLK.CLK` | Precise satellite clocks  | 30 s     |
-| `COD0MGXFIN_20250020000_01D_30S_CLK.CLK` | Precise satellite clocks  | 30 s     |
+| Files | Product | Interval |
+| ----- | ------- | -------- |
+| `COD0MGXFIN_{2024366,2025001,2025002}0000_01D_05M_ORB.SP3` | multi-GNSS orbits | 5 min |
+| `COD0MGXFIN_{2024366,2025001,2025002}0000_01D_30S_CLK.CLK` | satellite clocks | 30 s |
 
 `aux_2025001.zarr` holds the orbits (`X`, `Y`, `Z`, `Vx`, `Vy`, `Vz`) and
-clock offsets (`clock_offset`, seconds) of 2025-001 interpolated onto the 5 s
-grid of the Rosalia observations, as `canvodpy run` computes them from the
-three days above (`canvod.auxiliary.interpolation.interpolate_aux_day`).
-
----
+clock offsets (`clock_offset`, in seconds) of 2025-01-01 on the 5 s grid of
+the Rosalia observations, as `canvodpy run` computes them from the three
+days above (`canvod.auxiliary.interpolation.interpolate_aux_day`).
 
 ## Stripped RINEX v3.05
 
-`valid/rinex_v3_05_stripped/01_ExampleSite/` contains real GNSS observations
-from an MPI-BGC field site (station name withheld — referred to as
-`ExampleSite`, station codes `EXPR01MPI`/`EXPA01MPI`), in **SNR-only
-stripped RINEX**: every `SYS / # / OBS TYPES` record starts with `S`, with
-pseudorange, carrier phase, Doppler, LLI, and SSI fields removed entirely.
-This is a real RINEX variant some receivers/pipelines produce deliberately
-— GNSS-T only ever needs SNR, and full observables make the already-large
-daily files (multi-hundred MB) far more expensive to parse and store for no
-benefit to VOD retrieval.
+The ExampleSite files hold signal-to-noise ratios only: every observation
+type in their `SYS / # / OBS TYPES` records starts with `S`, and the
+pseudorange, carrier phase and Doppler observations are left out. canVODpy
+reads them with `canvod.readers.rinex.v3_05_stripped.Rnxv3StrippedObs`,
+which refuses a file with any other observation type
+(`StrippedRinexError`).
 
-Read by `canvod.readers.rinex.v3_05_stripped.Rnxv3StrippedObs`, which
-enforces the SNR-only contract at load time (`StrippedRinexError` if any
-non-`S*` observable is present) and builds a dataset with a single `SNR`
-variable, skipping the auxiliary arrays the full `Rnxv3Obs` reader
-allocates for pseudorange/phase/Doppler.
+## Malformed files
 
----
-
-## Invalid test files
-
-The `invalid/` directory contains 36 malformed RINEX v3 observation files, each targeting a specific parser failure mode: truncation, corruption, structural violations, encoding issues, and edge cases (leap seconds, event epochs). Used by `test_reader_invalid.py` to verify graceful error handling.
-
----
-
-## Ignored files
-
-The `.gitignore` excludes:
-
-- `.DS_Store` — macOS metadata
-- `*.db` — runtime SQLite caches (e.g. `gnss_satellites_cache.db`)
-
----
+`invalid/` holds 36 RINEX v3 observation files, each broken in one way:
+truncated, corrupted, structurally wrong, wrongly encoded, or with rare
+content such as leap seconds and event epochs. canVODpy's reader tests use
+them to check that each one fails with a clear error
+(`packages/canvod-readers/tests/test_rinex_corruption.py`).
 
 ## Data providers
 
-| Contributor             | Affiliation            | Data                            |
-| ----------------------- | ---------------------- | ------------------------------- |
-| Nicolas François Bader  | CLIMERS, TU Wien       | Rosalia RINEX v3.04, SBF, NMEA  |
-| Wouter Dorigo           | CLIMERS, TU Wien       | Rosalia RINEX v3.04, SBF, NMEA  |
-| Eugenio Diaz-Pines      | Forest Demonstration Centre, BOKU University; Institute of Soil Research, BOKU University | Head of Rosalia Research Forest |
-| Konstantin Schellenberg | FSU Jena / MPI-BGC     | Hainich NMEA (u-blox NEO-M9N); stripped RINEX v3.05 (`ExampleSite`) |
-| Vincent Humphrey        | MeteoSwiss             | MOFLUX RINEX v2.11              |
-| Christian Frankenberg   | Caltech                | MOFLUX RINEX v2.11              |
+| Contributor | Affiliation | Data |
+| ----------- | ----------- | ---- |
+| Nicolas François Bader | CLIMERS, TU Wien | Rosalia RINEX v3.04, SBF, NMEA |
+| Wouter Dorigo | CLIMERS, TU Wien | Rosalia RINEX v3.04, SBF, NMEA |
+| Eugenio Diaz-Pines | Forest Demonstration Centre, BOKU University; Institute of Soil Research, BOKU University | Head of Rosalia Research Forest |
+| Konstantin Schellenberg | FSU Jena / MPI-BGC | Hainich NMEA; stripped RINEX v3.05 (ExampleSite) |
+| Vincent Humphrey | MeteoSwiss | MOFLUX RINEX v2.11 |
+| Christian Frankenberg | Caltech | MOFLUX RINEX v2.11 |
 
----
+## Citation
 
-## Zenodo release — Option A plan
-
-This dataset will be published on Zenodo as a versioned, citable record.
-Metadata is prepared in `.zenodo.json` and `CITATION.cff`.
-
-### Pre-upload checklist
-
-- [x] Fill in all ORCID placeholders in `CITATION.cff` and `.zenodo.json`
-- [x] Resolve SP3/CLK duplication — canonical location is `valid/aux_data/{01_SP3,02_CLK}/`;
-  duplicate copies under `valid/aux_data/00_aux_files/` and `valid/rinex_v3_04/01_Rosalia/`
-  have been removed.
-- [x] Commit `aux_2025001.zarr` — removed `*.zarr/` from `.gitignore`; the cache is
-  included in the GitHub release archive and in `aux_data.tar.gz`. Required by demo
-  notebooks 07 and 17.
-- [x] Rename `valid/broadcast_epehemrides/` → `valid/broadcast_ephemerides/` (typo fixed).
-- [x] Add `related_identifiers` entry for `canvodpy-demo` once that repo is public.
-
-### Archive structure (Option A — one archive per format type)
-
-Each archive maps 1:1 to a top-level subdirectory under `valid/`. After extraction
-all archives reconstruct the same `valid/` tree and require no path changes in
-`_paths.py`.
-
-| Archive                       | Contents                                    | Approx. compressed size |
-| ----------------------------- | ------------------------------------------- | ----------------------- |
-| `rinex_v3_04.tar.gz`          | RINEX v3.04 obs, Rosalia                    | ~160 MB                 |
-| `sbf.tar.gz`                  | SBF binary, Rosalia                         | ~2.2 GB                 |
-| `nmea.tar.gz`                 | NMEA, Rosalia + Hainich                     | ~35 MB                  |
-| `aux_data.tar.gz`             | SP3, CLK, `aux_2025001.zarr`                | ~160 MB                 |
-| `rinex_v2_11.tar.gz`          | RINEX v2.11, MOFLUX                         | ~9 MB                   |
-| `rinex_v3_05_stripped.tar.gz` | Stripped RINEX v3.05, ExampleSite (MPI-BGC) | < 1 MB                  |
-| `nav_data.tar.gz`             | RINEX nav data (.25p), Rosalia              | ~1.5 MB                 |
-| `invalid.tar.gz`              | 36 malformed RINEX files                    | ~2.5 MB                 |
-
-### Pooch integration (`_paths.py`)
-
-After the Zenodo DOI is assigned, `_paths.py` in `canvodpy-demo` will be updated
-to add a third resolution path that downloads and caches archives on first access:
-
-```text
-Resolution order:
-1. Monorepo  → packages/canvod-readers/tests/test_data/valid/   (dev)
-2. Standalone clone → ./test_data/valid/                         (git clone)
-3. Pooch cache → ~/.cache/canvodpy/test_data/valid/              (auto-download)
-```
-
-Each path constant (`ROSALIA_CANOPY_DIR`, `SBF_CANOPY_DIR`, etc.) triggers
-download of only the required archive, not the full dataset.
-
----
+The dataset is published on Zenodo:
+[doi:10.5281/zenodo.19708759](https://doi.org/10.5281/zenodo.19708759).
+Citation metadata are in [`CITATION.cff`](CITATION.cff).
 
 ## License
 
-Data collected by TU Wien, Department of Geodesy and Geoinformation.
 [Apache License 2.0](LICENSE)
 
----
-
 ## Affiliation
-
-Collected and maintained by **Nicolas François Bader**
 
 [Climate and Environmental Remote Sensing Research Unit (CLIMERS)](https://www.tuwien.at/en/mg/geo/climers)
 Department of Geodesy and Geoinformation, TU Wien

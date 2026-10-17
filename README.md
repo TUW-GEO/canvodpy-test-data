@@ -46,12 +46,10 @@ canVODpy includes this repository as a git submodule at
 git clone --recurse-submodules https://github.com/nfb2021/canvodpy.git
 ```
 
-The demo notebooks download it from Zenodo on first use. To use a local
-copy instead, clone it into `test_data/` of the demo:
-
-```bash
-git clone https://github.com/nfb2021/canvodpy-test-data.git test_data
-```
+The demo notebooks don't read this repository directly. On first use they
+download zips built from it, which are stored in the Hugging Face dataset
+[`nfb2021/canvodpy-demo-data`](https://huggingface.co/datasets/nfb2021/canvodpy-demo-data),
+and cache them locally.
 
 ## File names
 

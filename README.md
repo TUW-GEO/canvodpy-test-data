@@ -46,12 +46,10 @@ canVODpy includes this repository as a git submodule at
 git clone --recurse-submodules https://github.com/nfb2021/canvodpy.git
 ```
 
-The demo notebooks download it from Zenodo on first use. To use a local
-copy instead, clone it into `test_data/` of the demo:
-
-```bash
-git clone https://github.com/nfb2021/canvodpy-test-data.git test_data
-```
+The demo notebooks don't read this repository directly. On first use they
+download zips built from it, which are stored in the Hugging Face dataset
+[`nfb2021/canvodpy-demo-data`](https://huggingface.co/datasets/nfb2021/canvodpy-demo-data),
+and cache them locally.
 
 ## File names
 
@@ -109,12 +107,31 @@ valid/
 │   ├── 01_reference/25001/                  # EXPR01MPI_*.rnx
 │   └── 01_canopy/25001/                     # EXPA01MPI_*.rnx
 ├── broadcast_ephemerides/02_canopy/         # empty
-└── aux_data/
-    ├── 01_SP3/                              # orbits, 2024-366 to 2025-002
-    ├── 02_CLK/                              # clocks, 2024-366 to 2025-002
-    └── aux_2025001.zarr/                    # orbits and clocks of 2025-001 on a 5 s grid
+├── aux_data/
+│   ├── 01_SP3/                              # orbits, 2024-366 to 2025-002
+│   ├── 02_CLK/                              # clocks, 2024-366 to 2025-002
+│   └── aux_2025001.zarr/                    # orbits and clocks of 2025-001 on a 5 s grid
+└── run_history/
+    └── run_history.sqlite                   # anonymized run history for the run dashboard
 invalid/                                     # 36 malformed RINEX v3 files
 ```
+
+## Run history
+
+`valid/run_history/` is a log folder with the run history of nine
+canVODpy runs: the same seven days of two receivers, processed with 1 to
+126 worker processes, one run per worker count, plus a warm-up run whose
+orbit download failed for three days. `canvodpy dashboard --logs-dir
+valid/run_history` opens it in the run dashboard; canVODpy's dashboard
+tests and demo notebook use it.
+
+It is anonymized: the person, institution, funding and site are the
+test persona of `canvod.utils.testing` (site Fangorn), the machine is an
+example machine (no real CPU, core counts, memory, operating system,
+host name or process ids), the paths start at `/data/example`, and the
+file index is empty. The timings, results, problems and the changes of
+CPU, memory and free disk during the runs are kept. canVODpy's
+`scripts/anonymize_run_history.py` wrote it.
 
 ## Orbits and clocks
 

@@ -108,8 +108,8 @@ valid/
 │   └── 01_canopy/25001/                     # EXPA01MPI_*.rnx
 ├── broadcast_ephemerides/02_canopy/         # empty
 ├── aux_data/
-│   ├── 01_SP3/                              # orbits, 2024-366 to 2025-002
-│   ├── 02_CLK/                              # clocks, 2024-366 to 2025-002
+│   ├── 01_SP3/                              # orbits, 2024-366 to 2025-002 and 2025-365 to 2026-002
+│   ├── 02_CLK/                              # clocks, 2024-366 to 2025-002 and 2025-365 to 2026-002
 │   └── aux_2025001.zarr/                    # orbits and clocks of 2025-001 on a 5 s grid
 └── run_history/
     └── run_history.sqlite                   # anonymized run history for the run dashboard
@@ -136,14 +136,22 @@ CPU, memory and free disk during the runs are kept. canVODpy's
 ## Orbits and clocks
 
 Final products of the Center for Orbit Determination in Europe (CODE) for
-2025-01-01 and the days before and after it. canVODpy joins each day's
-orbits and clocks with those of the neighboring days, so the whole day is
-interpolated, never extrapolated.
+2025-01-01 (the RINEX, SBF and NMEA days of Rosalia, MOFLUX and
+ExampleSite) and 2026-01-01 (the NMEA day of Hainich), each with the days
+before and after it. canVODpy joins each day's orbits and clocks with
+those of the neighboring days, so the whole day is interpolated, never
+extrapolated. Runs on these days therefore need no network.
 
 | Files | Product | Interval |
 | ----- | ------- | -------- |
 | `COD0MGXFIN_{2024366,2025001,2025002}0000_01D_05M_ORB.SP3` | multi-GNSS orbits | 5 min |
 | `COD0MGXFIN_{2024366,2025001,2025002}0000_01D_30S_CLK.CLK` | satellite clocks | 30 s |
+| `COD0MGXFIN_{2025365,2026001,2026002}0000_01D_05M_ORB.SP3` | multi-GNSS orbits | 5 min |
+| `COD0MGXFIN_{2025365,2026001,2026002}0000_01D_30S_CLK.CLK` | satellite clocks | 30 s |
+
+The 2025-365 to 2026-002 files were downloaded by `canvodpy run` from
+ESA's GNSS Science Support Centre (`ftp://gssc.esa.int/gnss/products/2399/`,
+public, no account) and decompressed; they are unchanged otherwise.
 
 `aux_2025001.zarr` holds the orbits (`X`, `Y`, `Z`, `Vx`, `Vy`, `Vz`) and
 clock offsets (`clock_offset`, in seconds) of 2025-01-01 on the 5 s grid of

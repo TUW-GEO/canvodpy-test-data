@@ -190,17 +190,6 @@ built from this repository at commit `dc2aea1`. canVODpy's guide
 [Reference stores](https://canvodpy.eu/guides/reference-stores/)
 describes the profiles.
 
-## Data providers
-
-| Contributor | Affiliation | Data |
-| ----------- | ----------- | ---- |
-| Nicolas François Bader | CLIMERS, TU Wien | Rosalia RINEX v3.04, SBF, NMEA |
-| Wouter Dorigo | CLIMERS, TU Wien | Rosalia RINEX v3.04, SBF, NMEA |
-| Eugenio Diaz-Pines | Forest Demonstration Centre, BOKU University; Institute of Soil Research, BOKU University | Head of Rosalia Research Forest |
-| Konstantin Schellenberg | FSU Jena / MPI-BGC | Hainich NMEA; stripped RINEX v3.05 (ExampleSite) |
-| Vincent Humphrey | MeteoSwiss | MOFLUX RINEX v2.11 |
-| Christian Frankenberg | Caltech | MOFLUX RINEX v2.11 |
-
 ## Citation
 
 The dataset is published on Zenodo:

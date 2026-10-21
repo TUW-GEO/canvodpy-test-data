@@ -186,7 +186,8 @@ difference. The stores are zips in the Hugging Face dataset
 [`nfb2021/canvodpy-reference-stores`](https://huggingface.co/datasets/nfb2021/canvodpy-reference-stores);
 canVODpy pins one commit of it, at present
 [`ef448847`](https://huggingface.co/datasets/nfb2021/canvodpy-reference-stores/tree/ef448847e661cbdc2bdc97af86e1ad6a7b801bb9),
-built from this repository at commit `dc2aea1`. canVODpy's guide
+built from this repository at commit `dc2aea1` and citable as
+[doi:10.57967/hf/11189](https://doi.org/10.57967/hf/11189). canVODpy's guide
 [Reference stores](https://canvodpy.eu/guides/reference-stores/)
 describes the profiles.
 

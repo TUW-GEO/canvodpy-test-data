@@ -175,6 +175,21 @@ content such as leap seconds and event epochs. canVODpy's reader tests use
 them to check that each one fails with a clear error
 (`packages/canvod-readers/tests/test_rinex_corruption.py`).
 
+## Reference stores
+
+canVODpy's reference stores are built from this data: GNSS and VOD
+stores of every site, processed with fixed settings (setting profiles).
+`just reference-check` in canVODpy runs the profiles again and compares
+the new stores with them, so a change that alters the stored
+observations, the satellite geometry or the VOD shows up as a
+difference. The stores are zips in the Hugging Face dataset
+[`nfb2021/canvodpy-reference-stores`](https://huggingface.co/datasets/nfb2021/canvodpy-reference-stores);
+canVODpy pins one commit of it, at present
+[`ef448847`](https://huggingface.co/datasets/nfb2021/canvodpy-reference-stores/tree/ef448847e661cbdc2bdc97af86e1ad6a7b801bb9),
+built from this repository at commit `dc2aea1`. canVODpy's guide
+[Reference stores](https://canvodpy.eu/guides/reference-stores/)
+describes the profiles.
+
 ## Data providers
 
 | Contributor | Affiliation | Data |

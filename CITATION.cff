@@ -58,8 +58,8 @@ contributors:
     orcid: "https://orcid.org/0000-0002-0546-5857"
     role: "Data provider (MOFLUX RINEX v2.11)"
 
-repository-code: "https://github.com/nfb2021/canvodpy-test-data"
-url: "https://github.com/nfb2021/canvodpy"
+repository-code: "https://github.com/TUW-GEO/canvodpy-test-data"
+url: "https://github.com/TUW-GEO/canvodpy"
 license: Apache-2.0
 version: "0.1.0"
 date-released: "2026-04-23"
@@ -84,5 +84,5 @@ references:
     authors:
       - family-names: Bader
         given-names: Nicolas François
-    repository-code: "https://github.com/nfb2021/canvodpy"
+    repository-code: "https://github.com/TUW-GEO/canvodpy"
     doi: "10.5281/zenodo.18496233"

@@ -4,7 +4,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 <!-- Identity -->
-[![canVODpy](https://img.shields.io/badge/canVODpy-test--data-2d6a4f)](https://github.com/nfb2021/canvodpy)
+[![canVODpy](https://img.shields.io/badge/canVODpy-test--data-2d6a4f)](https://github.com/TUW-GEO/canvodpy)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19708759.svg)](https://doi.org/10.5281/zenodo.19708759)
 [![CLIMERS @ TU Wien](https://img.shields.io/badge/CLIMERS-TU_Wien-006699)](https://www.tuwien.at/en/mg/geo/climers)
@@ -12,15 +12,15 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nfb2021/canvodpy/main/docs/assets/logo/canvodpy_logo_dark_mode.svg">
-    <img alt="canVODpy logo" src="https://raw.githubusercontent.com/nfb2021/canvodpy/main/docs/assets/logo/canvodpy_logo_bright_mode.svg" width="312">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/TUW-GEO/canvodpy/main/docs/assets/logo/canvodpy_logo_dark_mode.svg">
+    <img alt="canVODpy logo" src="https://raw.githubusercontent.com/TUW-GEO/canvodpy/main/docs/assets/logo/canvodpy_logo_bright_mode.svg" width="312">
   </picture>
 </p>
 
 # canVODpy Test Data
 
-Real GNSS observations for testing [canVODpy](https://github.com/nfb2021/canvodpy)
-and running its [demo notebooks](https://github.com/nfb2021/canvodpy-demo):
+Real GNSS observations for testing [canVODpy](https://github.com/TUW-GEO/canvodpy)
+and running its [demo notebooks](https://github.com/TUW-GEO/canvodpy-demo):
 pairs of receivers, one below the canopy and one with an open view of the
 sky, from four sites and in five file formats, together with the orbit and
 clock products needed to process them.
@@ -43,7 +43,7 @@ canVODpy includes this repository as a git submodule at
 `packages/canvod-readers/tests/test_data/`:
 
 ```bash
-git clone --recurse-submodules https://github.com/nfb2021/canvodpy.git
+git clone --recurse-submodules https://github.com/TUW-GEO/canvodpy.git
 ```
 
 The demo notebooks don't read this repository directly. On first use they

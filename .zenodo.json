@@ -62,7 +62,7 @@
       "scheme": "doi"
     },
     {
-      "identifier": "https://github.com/nfb2021/canvodpy-demo",
+      "identifier": "https://github.com/TUW-GEO/canvodpy-demo",
       "relation": "isSupplementTo",
       "scheme": "url"
     }

@@ -3,8 +3,8 @@
     "interpolator_config": {
       "interpolator_type": "Sp3InterpolationStrategy",
       "config": {
-        "use_velocities": true,
-        "fallback_method": "linear"
+        "method": "lagrange",
+        "points": 11
       }
     }
   },

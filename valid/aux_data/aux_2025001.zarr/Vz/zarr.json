@@ -37,7 +37,6 @@
   ],
   "attributes": {
     "long_name": "z-component of velocity",
-    "standard_name": "v_z",
     "short_name": "v_z",
     "axis": "v_z",
     "units": "m/s",

@@ -37,7 +37,6 @@
   ],
   "attributes": {
     "long_name": "Satellite clock offset",
-    "standard_name": "clock_offset",
     "units": "seconds",
     "description": "Clock correction for each satellite",
     "_FillValue": "AAAAAAAA+H8="

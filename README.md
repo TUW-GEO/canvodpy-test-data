@@ -156,7 +156,9 @@ public, no account) and decompressed; they are unchanged otherwise.
 `aux_2025001.zarr` holds the orbits (`X`, `Y`, `Z`, `Vx`, `Vy`, `Vz`) and
 clock offsets (`clock_offset`, in seconds) of 2025-01-01 on the 5 s grid of
 the Rosalia observations, as `canvodpy run` computes them from the three
-days above (`canvod.auxiliary.interpolation.interpolate_aux_day`).
+days above (`canvod.auxiliary.interpolation.interpolate_aux_day`) since
+canVODpy v1.1.0, which interpolates orbits with a polynomial of degree 10
+through the 11 nearest orbit epochs.
 
 ## Stripped RINEX v3.05
 

@@ -37,7 +37,6 @@
   ],
   "attributes": {
     "long_name": "z-coordinate in ECEF",
-    "standard_name": "z_{ECEF}",
     "short_name": "z",
     "units": "m",
     "axis": "z",
